@@ -1,38 +1,29 @@
 package com.zuicodiing.platform;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import com.zuicodiing.platform.tomcat.TomcatServer;
+import com.zuicodiing.platform.tomcat.web.WebXMLParser;
+import com.zuicodiing.platform.tomcat.web.impl.WebXMLParserImpl;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Unit test for simple App.
  */
-public class AppTest 
-    extends TestCase
-{
-    /**
-     * Create the test case
-     *
-     * @param testName name of the test case
-     */
-    public AppTest( String testName )
-    {
-        super( testName );
+public class AppTest {
+
+    private TomcatServer server;
+    @Before
+    public void before() throws Exception {
+        WebXMLParser parser = new WebXMLParserImpl();
+
+        server = new TomcatServer()
+                .build();
+
     }
 
-    /**
-     * @return the suite of tests being tested
-     */
-    public static Test suite()
-    {
-        return new TestSuite( AppTest.class );
+    @Test
+    public void start() throws Exception {
+        server.start();
     }
 
-    /**
-     * Rigourous Test :-)
-     */
-    public void testApp()
-    {
-        assertTrue( true );
-    }
 }

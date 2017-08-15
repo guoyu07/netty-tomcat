@@ -1,7 +1,6 @@
 package com.zuicodiing.platform.tomcat;
 
-import com.zuicodiing.platform.tomcat.handler.TomcatHandler;
-import com.zuicodiing.platform.tomcat.handler.impl.TomcatHandlerImpl;
+import com.zuicodiing.platform.tomcat.handler.WebXmlTomcatHandler;
 import com.zuicodiing.platform.tomcat.utils.LogUtil;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -13,6 +12,9 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.http.HttpRequestDecoder;
 import io.netty.handler.codec.http.HttpResponseEncoder;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Stephen.lin on 2017/8/14.
@@ -28,16 +30,22 @@ public class TomcatServer {
     private ChannelFuture future;
     private EventLoopGroup bossGroup, workGroup;
 
-    public TomcatServer() throws Exception {
-        init();
+    private WebXmlTomcatHandler webXmlTomcatHandler;
+
+    public TomcatServer() {
+
     }
 
-    public TomcatServer(int port) throws Exception {
+    public TomcatServer setPort(int port){
         this.port = port;
-        init();
+        return this;
     }
 
-    private void init() throws Exception {
+    public TomcatServer build() throws Exception {
+
+        webXmlTomcatHandler = new WebXmlTomcatHandler();
+        webXmlTomcatHandler.registeServlets();
+
         bossGroup = new NioEventLoopGroup();
         workGroup = new NioEventLoopGroup();
 
@@ -50,8 +58,10 @@ public class TomcatServer {
                     protected void initChannel(SocketChannel sc) throws Exception {
                         sc.pipeline().addLast(new HttpResponseEncoder());
                         sc.pipeline().addLast(new HttpRequestDecoder());
-                        sc.pipeline().addLast(new TomcatHandlerImpl());
+                       sc.pipeline().addLast(webXmlTomcatHandler);
+
                     }
+
 
                 })
                 //配置工作线程数为128个
@@ -59,8 +69,9 @@ public class TomcatServer {
                 .childOption(ChannelOption.SO_KEEPALIVE, true);
         future = bootstrap.bind(this.port).sync();
 
-
+        return this;
     }
+
 
     public void start() throws Exception {
         try {
@@ -77,7 +88,9 @@ public class TomcatServer {
     }
 
 
+
+
     public static void main(String[] args) throws Exception {
-        new TomcatServer().start();
+        new TomcatServer().build().start();
     }
 }

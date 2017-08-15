@@ -7,23 +7,30 @@ package com.zuicodiing.platform.tomcat.web;
  */
 public class ServletXML {
 
-    private String servetName;
+    private String servletName;
     private String servletClass;
+    private String urlPattern;
 
     public ServletXML() {
     }
 
-    public ServletXML(String servetName, String servletClass) {
-        this.servetName = servetName;
+    public ServletXML(String servletName, String servletClass) {
+        this.servletName = servletName;
         this.servletClass = servletClass;
     }
 
-    public String getServetName() {
-        return servetName;
+    public ServletXML(String servletName, String servletClass, String urlPattern) {
+        this.servletName = servletName;
+        this.servletClass = servletClass;
+        this.urlPattern = urlPattern;
     }
 
-    public void setServetName(String servetName) {
-        this.servetName = servetName;
+    public String getServletName() {
+        return servletName;
+    }
+
+    public void setServletName(String servletName) {
+        this.servletName = servletName;
     }
 
     public String getServletClass() {
@@ -32,5 +39,13 @@ public class ServletXML {
 
     public void setServletClass(String servletClass) {
         this.servletClass = servletClass;
+    }
+
+    public String getUrlPattern() {
+        return urlPattern;
+    }
+
+    public void setUrlPattern(String urlPattern) {
+        this.urlPattern = urlPattern;
     }
 }

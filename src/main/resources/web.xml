@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+	version="3.0">
+    <servlet>
+        <servlet-name>firstServlet</servlet-name>
+        <servlet-class>com.zuicodiing.platform.tester.FirstServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>firstServlet</servlet-name>
+        <!-- / 表示所有的请求都要经过此serlvet -->
+        <url-pattern>/first/*</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>secondServlet</servlet-name>
+        <servlet-class>com.zuicodiing.platform.tester.SecondServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>secondServlet</servlet-name>
+        <!-- / 表示所有的请求都要经过此serlvet -->
+        <url-pattern>/second/*</url-pattern>
+    </servlet-mapping>
+</web-app>
